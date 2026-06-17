@@ -14,7 +14,7 @@ public sealed class PortfolioData
     [
         new()
         {
-            Year = "2010",
+            Year = "2010.9",
             Title = "B.S.E of Chemical Engineer",
             Org = "University of Michigan-Ann Arbor",
             Summary = "What is even Chemical Engineering? Just Chemistry right?",
@@ -24,7 +24,7 @@ public sealed class PortfolioData
         },
         new()
         {
-            Year = "2011",
+            Year = "2011.9",
             Title = "Minor in Computer Science",
             Org = "University of Michigan-Ann Arbor",
             Summary = "When it first compiled.",
@@ -34,7 +34,7 @@ public sealed class PortfolioData
         },
         new()
         {
-            Year = "2012",
+            Year = "2012.5",
             Title = "Web Module Developer",
             Org = "Encyclopedia of Chemical Engineering Equipment@University of Michigan",
             Summary = "Let's work with some web pages!",
@@ -44,7 +44,7 @@ public sealed class PortfolioData
         },  
         new()      
         {
-            Year = "2014",
+            Year = "2014.5",
             Title = "B.S.E of Chemical Engineer, Minor in Computer Science",
             Org = "University of Michigan-Ann Arbor",
             Summary = "Where it first compiled",
@@ -54,7 +54,7 @@ public sealed class PortfolioData
         },
         new()
         {
-            Year = "2014",
+            Year = "2014.6",
             Title = "Junior Software Engineer / Information Technology Analyst",
             Org = "The Dow Chemical Company",
             Summary = "Shipped to production on week two. Survived.",
