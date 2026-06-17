@@ -38,7 +38,7 @@ public sealed class PortfolioData
             Title = "Web Module Developer",
             Org = "Encyclopedia of Chemical Engineering Equipment@University of Michigan",
             Summary = "Let's work with some web pages!",
-            Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. <a href='https://encyclopedia.che.engin.umich.edu/' target='_blank'>Link</a>",
+            Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. <strong>HTML</strong>",
             Tags = ["HTML", "JavaScript"],
             Kind = NodeKind.Work
         },  
