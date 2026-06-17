@@ -7,6 +7,13 @@ public sealed class SocialLink
     public required string Handle { get; init; }
 }
 
+/// <summary>A named cluster of related skills, rendered as a labeled row of pills.</summary>
+public sealed class SkillGroup
+{
+    public required string Category { get; init; }
+    public required string[] Items { get; init; }
+}
+
 /// <summary>Static "who am I" data. Edit these placeholders with your real details.</summary>
 public sealed class Profile
 {
@@ -25,8 +32,27 @@ public sealed class Profile
 
     public string[] Stack { get; init; } =
     [
-        "C# / .NET", "Blazor", "JavaScript/TypeScript", "HTML", "CSS", 
+        "C# / .NET", "Blazor", "JavaScript/TypeScript", "HTML", "CSS",
         "Aurelia", "React", "Oracle", "SQL Server", "Azure"
+    ];
+
+    public SkillGroup[] Skills { get; init; } =
+    [
+        new()
+        {
+            Category = "Engineering",
+            Items = ["Clean Architecture", "Full-Stack Development", "API Design", "Code Review", "Database Design"]
+        },
+        new()
+        {
+            Category = "Solutioning",
+            Items = ["Solution Design", "Technical Advisory", "Requirements Analysis", "System Integration"]
+        },
+        new()
+        {
+            Category = "Leadership",
+            Items = ["Project Management", "Team Mentoring", "Stakeholder Communication", "Agile Delivery"]
+        }
     ];
 
     public SocialLink[] Socials { get; init; } =
