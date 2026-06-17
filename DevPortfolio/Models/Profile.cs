@@ -31,9 +31,8 @@ public sealed class Profile
 
     public SocialLink[] Socials { get; init; } =
     [
-        new() { Label = "GitHub",   Url = "https://github.com/your-handle",      Handle = "github.com/your-handle" },
-        new() { Label = "LinkedIn", Url = "https://linkedin.com/in/your-handle", Handle = "linkedin.com/in/your-handle" },
-        new() { Label = "Email",    Url = "mailto:you@example.com",              Handle = "you@example.com" },
-        new() { Label = "X",        Url = "https://x.com/your-handle",           Handle = "x.com/your-handle" }
+        new() { Label = "GitHub",   Url = "https://github.com/Linnracious",      Handle = "github.com/Linnracious" },
+        new() { Label = "LinkedIn", Url = "https://linkedin.com/in/henry-chen-35868563", Handle = "linkedin.com/in/henry-chen-35868563" },
+        new() { Label = "Email",    Url = "mailto:linnracious@gmail.com",              Handle = "linnracious@gmail.com" }
     ];
 }
