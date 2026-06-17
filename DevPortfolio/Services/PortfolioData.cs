@@ -65,7 +65,7 @@ public sealed class PortfolioData
         new()
         {
             Year = "2019.7",
-            Title = "Senior Software Engineer / Senior Information Technology Analyst,
+            Title = "Senior Software Engineer / Senior Information Technology Analyst",
             Org = "The Dow Chemical Company",
             Summary = "Lead, teach and optimize!",
             Details = "Championing the adoption of agile and scrum methodologies on the team, scaled up the LIMS ecosystem with 4 new additional business functions, and developed into a more business analyst role, working with stakeholders to deliver strategy and 10M+ value for their functions.",
