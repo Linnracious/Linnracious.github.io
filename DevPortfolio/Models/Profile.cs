@@ -14,6 +14,15 @@ public sealed class SkillGroup
     public required string[] Items { get; init; }
 }
 
+/// <summary>A completed certification. Url is optional — when set, the card links out to verify it.</summary>
+public sealed class Certification
+{
+    public required string Name { get; init; }
+    public required string Issuer { get; init; }
+    public required string Year { get; init; }
+    public string? Url { get; init; }
+}
+
 /// <summary>Static "who am I" data. Edit these placeholders with your real details.</summary>
 public sealed class Profile
 {
@@ -53,6 +62,12 @@ public sealed class Profile
             Category = "Leadership",
             Items = ["Project Management", "Team Mentoring", "Stakeholder Communication", "Agile Delivery"]
         }
+    ];
+
+    public Certification[] Certifications { get; init; } =
+    [
+        new() { Name = "Azure Fundamentals (AZ-900)", Issuer = "Microsoft", Year = "2024", Url = null },
+        new() { Name = "Scrum Master (PSM I)",         Issuer = "Scrum.org", Year = "2023", Url = null }
     ];
 
     public SocialLink[] Socials { get; init; } =
