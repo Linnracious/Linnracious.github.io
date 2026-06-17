@@ -14,19 +14,47 @@ public sealed class PortfolioData
     [
         new()
         {
+            Year = "2010",
+            Title = "B.S.E of Chemical Engineer",
+            Org = "University of Michigan-Ann Arbor",
+            Summary = "What is even Chemical Engineering? Just Chemistry right?",
+            Details = "Enrolled at the University of Michigan Chemical Engineering program, with a passion and curiosity for chemistry! Go Mass Balances! Go Blue!",
+            Tags = ["Chemical Engineering"],
+            Kind = NodeKind.Education
+        },
+        {
+            Year = "2011",
+            Title = "Minor in Computer Science",
+            Org = "University of Michigan-Ann Arbor",
+            Summary = "When it first compiled.",
+            Details = "Began enrolling in classes to target a minor in Computer Science because I enjoyed the practical hands-on aspects of computer science to balance with the theoretical thinking for chemical engineering.",
+            Tags = ["Computer Science"],
+            Kind = NodeKind.Education
+        },
+        new()
+        {
+            Year = "2012",
+            Title = "Web Module Developer",
+            Org = "Encyclopedia of Chemical Engineering Equipment@University of Michigan",
+            Summary = "Let's work with some web pages!",
+            Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. <a href='https://encyclopedia.che.engin.umich.edu/' target='_blank'>Link</a>",
+            Tags = ["HTML", "JavaScript"],
+            Kind = NodeKind.Work
+        },        
+        {
             Year = "2014",
             Title = "B.S.E of Chemical Engineer, Minor in Computer Science",
             Org = "University of Michigan-Ann Arbor",
             Summary = "Where it first compiled",
-            Details = "Graduated Cum Laude, with a focus on Research & Development for Product Design and experienced in software development and algorithms.Graduated Cum Laude, with a focus on Research & Development for Product Design and experienced in software development and algorithms.",
+            Details = "Graduated Cum laude, with a focus on Research & Development for Product Design and experienced in software development and algorithms.",
             Tags = ["Chemical Engineering", "Computer Science"],
             Kind = NodeKind.Education
         },
         new()
         {
-            Year = "2020",
-            Title = "Junior Software Engineer",
-            Org = "Helix Dynamics",
+            Year = "2014",
+            Title = "Junior Software Engineer / Information Technology Analyst",
+            Org = "The Dow Chemical Company",
             Summary = "Shipped to production on week two. Survived.",
             Details = "Owned a customer-facing dashboard rebuild. Cut page load time by 60% and learned why staging environments exist.",
             Tags = ["React", "Node", "PostgreSQL"],
