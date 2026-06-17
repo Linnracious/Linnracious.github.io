@@ -19,16 +19,17 @@ public sealed class PortfolioData
             Org = "University of Michigan-Ann Arbor",
             Summary = "What is even Chemical Engineering? Just Chemistry right?",
             Details = "Enrolled at the University of Michigan Chemical Engineering program, with a passion and curiosity for chemistry! Go Mass Balances! Go Blue!",
-            Tags = ["Chemical Engineering", "Chemistry"],
+            Tags = ["Chemical Engineering"],
             Kind = NodeKind.Education
         },
+        new()
         {
             Year = "2011",
             Title = "Minor in Computer Science",
             Org = "University of Michigan-Ann Arbor",
             Summary = "When it first compiled.",
             Details = "Began enrolling in classes to target a minor in Computer Science because I enjoyed the practical hands-on aspects of computer science to balance with the theoretical thinking for chemical engineering.",
-            Tags = ["Computer Science", "Programming"],
+            Tags = ["Computer Science"],
             Kind = NodeKind.Education
         },
         new()
@@ -40,7 +41,8 @@ public sealed class PortfolioData
             Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. <a href='https://encyclopedia.che.engin.umich.edu/' target='_blank'>Link</a>",
             Tags = ["HTML", "JavaScript"],
             Kind = NodeKind.Work
-        },        
+        },  
+        new()      
         {
             Year = "2014",
             Title = "B.S.E of Chemical Engineer, Minor in Computer Science",
