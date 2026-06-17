@@ -62,7 +62,7 @@
             <span class="text-3xl font-bold @(right ? "neon-text-magenta" : "neon-text-cyan")">@_selected.Year</span>
             <h3 class="text-xl font-semibold text-white/90 mt-2">@_selected.Title</h3>
             <p class="text-sm text-white/50 mb-4">@_selected.Org · @_selected.Kind</p>
-            <p class="text-white/75 leading-relaxed">@_selected.Details</p>
+            <p class="text-white/75 leading-relaxed">@((MarkupString)_selected.Details)</p>
             <div class="flex flex-wrap gap-2 mt-6">
                 @foreach (var tag in _selected.Tags)
                 {
