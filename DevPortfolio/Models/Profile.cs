@@ -28,7 +28,7 @@ public sealed class Profile
 {
     public string Handle { get; init; } = "@linnracious";
     public string Name { get; init; } = "Henry Chen";
-    public string Role { get; init; } = "Full-Stack Advisory Developer / Junior Solution Manager / Project Manager";
+    public string Role { get; init; } = "Full-Stack Lead Developer / Associate Solution Manager / Project Manager";
     public string Location { get; init; } = "Midland, Michigan, USA";
     public string PhotoUrl { get; init; } = "assets/main.png";
 
@@ -41,33 +41,40 @@ public sealed class Profile
 
     public string[] Stack { get; init; } =
     [
-        "C# / .NET", "Blazor", "JavaScript/TypeScript", "HTML", "CSS",
-        "Aurelia", "React", "Oracle", "SQL Server", "Azure"
+        "C# / .NET", "Python", "Delphi","SQL", "JavaScript/TypeScript", "HTML", "CSS",
+        "Aurelia", "React", "Blazor", "Oracle", "SQL Server", "Azure", "GitHub"
     ];
 
     public SkillGroup[] Skills { get; init; } =
     [
         new()
         {
-            Category = "Engineering",
-            Items = ["Clean Architecture", "Full-Stack Development", "API Design", "Code Review", "Database Design"]
+            Category = "Technical",
+            Items = ["Full-Stack Development", "API Design", "Code Review", "Database Design"]
         },
         new()
         {
-            Category = "Solutioning",
+            Category = "Technologies",
+            Items = ["Laboratory Information Management Systems (LIMS)", "High Throughput Research (HTR)", "Electronic Lab Notebook (ELN)"]            
+        },
+        new()
+        {
+            Category = "Design",
             Items = ["Solution Design", "Technical Advisory", "Requirements Analysis", "System Integration"]
         },
         new()
         {
             Category = "Leadership",
-            Items = ["Project Management", "Team Mentoring", "Stakeholder Communication", "Agile Delivery"]
+            Items = ["Project Management", "Team Mentoring", "Stakeholder Management", "Agile Delivery"]
         }
     ];
 
     public Certification[] Certifications { get; init; } =
     [
-        new() { Name = "Azure Fundamentals (AZ-900)", Issuer = "Microsoft", Year = "2024", Url = null },
-        new() { Name = "Scrum Master (PSM I)",         Issuer = "Scrum.org", Year = "2023", Url = null }
+        new() { Name = "Foundations of Cybersecurity", Issuer = "Google", Year = "2026", Url = "https://www.coursera.org/account/accomplishments/verify/ULLZKLZP1NSZ" },
+        new() { Name = "Foundations of Project Management", Issuer = "Google", Year = "2025", Url = "https://www.coursera.org/account/accomplishments/verify/YOYW7642UTSI" },
+        new() { Name = "Application Development using Microservices and Serverless", Issuer = "IBM", Year = "2025", Url = "https://www.coursera.org/account/accomplishments/verify/3B4G28IPZYE9" },
+        new() { Name = "Scrum Master (PSM I)",        Issuer = "Scrum.org", Year = "2018", Url = "https://www.scrum.org/certificates/319609" }
     ];
 
     public SocialLink[] Socials { get; init; } =
