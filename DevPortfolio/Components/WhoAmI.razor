@@ -48,11 +48,34 @@
                 }
             </div>
 
-            <div class="flex flex-wrap gap-2 pt-2">
-                @foreach (var tech in Data.Profile.Stack)
-                {
-                    <span class="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-cyber-cyan/40 hover:text-cyber-cyan transition">@tech</span>
-                }
+            <!-- Tech stack -->
+            <div class="space-y-2 pt-2">
+                <p class="text-xs uppercase tracking-[0.4em] text-cyber-cyan/70">// tech stack</p>
+                <div class="flex flex-wrap gap-2">
+                    @foreach (var tech in Data.Profile.Stack)
+                    {
+                        <span class="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-cyber-cyan/40 hover:text-cyber-cyan transition">@tech</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="space-y-4 pt-2">
+                <p class="text-xs uppercase tracking-[0.4em] text-cyber-magenta/70">// skills</p>
+                <div class="space-y-3">
+                    @foreach (var group in Data.Profile.Skills)
+                    {
+                        <div class="space-y-2">
+                            <p class="text-[11px] uppercase tracking-widest text-white/50">@group.Category</p>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach (var skill in group.Items)
+                                {
+                                    <span class="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-cyber-magenta/40 hover:text-cyber-magenta transition">@skill</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
