@@ -54,7 +54,12 @@
 
     protected override void OnInitialized() => Sim.Changed += StateHasChanged;
 
-    private async Task ScrollTo(string id) => await JS.InvokeVoidAsync("simulation.scrollToId", id);
+    private async Task ScrollTo(string id)
+    {
+        try { await JS.InvokeVoidAsync("simulation.scrollToId", id); }
+        catch (JSException) { }
+        catch (JSDisconnectedException) { }
+    }
 
     public void Dispose() => Sim.Changed -= StateHasChanged;
 }

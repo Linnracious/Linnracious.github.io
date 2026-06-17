@@ -98,32 +98,40 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-            await JS.InvokeVoidAsync("simulation.initWorld");
+        if (!firstRender) return;
+        try { await JS.InvokeVoidAsync("simulation.initWorld"); }
+        catch (JSException) { }
+        catch (JSDisconnectedException) { }
     }
 
     // A click anywhere in the wormhole flips the centered card open (and pauses
     // the tunnel so it can be read), or closes the open one.
     private async Task OnViewportClick()
     {
-        if (_flippedKey is not null)
+        try
         {
-            _flippedKey = null;
-            await JS.InvokeVoidAsync("simulation.setPaused", false);
-            return;
-        }
+            if (_flippedKey is not null)
+            {
+                _flippedKey = null;
+                await JS.InvokeVoidAsync("simulation.setPaused", false);
+                return;
+            }
 
-        var year = await JS.InvokeAsync<string?>("simulation.getActiveYear");
-        if (!string.IsNullOrEmpty(year))
-        {
-            _flippedKey = year;
-            await JS.InvokeVoidAsync("simulation.setPaused", true);
+            var year = await JS.InvokeAsync<string?>("simulation.getActiveYear");
+            if (!string.IsNullOrEmpty(year))
+            {
+                _flippedKey = year;
+                await JS.InvokeVoidAsync("simulation.setPaused", true);
+            }
         }
+        catch (JSException) { }
+        catch (JSDisconnectedException) { }
     }
 
     public async ValueTask DisposeAsync()
     {
         try { await JS.InvokeVoidAsync("simulation.disposeWorld"); }
+        catch (JSException) { }
         catch (JSDisconnectedException) { /* circuit gone — nothing to clean */ }
     }
 }

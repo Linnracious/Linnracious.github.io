@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Run the JavaScript-based actions on Node 24 (silences the Node 20 deprecation
+# warnings; GitHub's recommended opt-in until newer action majors ship).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # Allow GITHUB_TOKEN to deploy to Pages
 permissions:
   contents: read
@@ -33,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: DevPortfolio/package-lock.json
 
@@ -51,11 +56,22 @@ jobs:
       # Rewrite the base href for the project page. index.html ships with "/" so
       # local `dotnet run` works; production lives at /<repo>/. If you rename the
       # repo, change BASE_PATH here and pathSegmentsToKeep in 404.html.
-      - name: Set base href for GitHub Pages
+      - name: Set base path for GitHub Pages
         run: |
-          BASE_PATH="/${GITHUB_REPOSITORY#*/}/"
-          echo "Rewriting <base href> to ${BASE_PATH}"
-          sed -i "s|<base href=\"/\" />|<base href=\"${BASE_PATH}\" />|" ../build/wwwroot/index.html
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          # A custom domain (CNAME) or a user/org page (<user>.github.io) serves
+          # from the ROOT -> base "/". Project pages serve from /<repo>/.
+          if [[ -f ../build/wwwroot/CNAME || "$REPO_NAME" == *.github.io ]]; then
+            BASE_PATH="/"; KEEP=0
+          else
+            BASE_PATH="/${REPO_NAME}/"; KEEP=1
+          fi
+          echo "Repo: ${REPO_NAME} -> base href: ${BASE_PATH}, pathSegmentsToKeep: ${KEEP}"
+          # Match ANY existing <base href="..."> (any value/format) so the rewrite
+          # never silently no-ops on a formatting difference.
+          sed -i -E "s#<base href=\"[^\"]*\"[^>]*>#<base href=\"${BASE_PATH}\" />#" ../build/wwwroot/index.html
+          sed -i -E "s#var pathSegmentsToKeep = [0-9]+;#var pathSegmentsToKeep = ${KEEP};#" ../build/wwwroot/404.html
+          echo "Result:"
           grep -o '<base href="[^"]*"' ../build/wwwroot/index.html
 
       # SPA fallback: GitHub Pages needs a 404.html (already in wwwroot) and a

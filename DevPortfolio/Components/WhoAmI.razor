@@ -63,7 +63,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-            await JS.InvokeVoidAsync("simulation.initPortraitTilt", _frame);
+        if (!firstRender) return;
+        // Cosmetic enhancement — never let a missing/failed script crash the page.
+        try { await JS.InvokeVoidAsync("simulation.initPortraitTilt", _frame); }
+        catch (JSException) { }
+        catch (JSDisconnectedException) { }
     }
 }
