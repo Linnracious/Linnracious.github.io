@@ -77,6 +77,37 @@
                     }
                 </div>
             </div>
+
+            <!-- Certifications -->
+            <div class="space-y-4 pt-2">
+                <p class="text-xs uppercase tracking-[0.4em] text-cyber-cyan/70">// certifications</p>
+                <div class="grid sm:grid-cols-2 gap-2">
+                    @foreach (var cert in Data.Profile.Certifications)
+                    {
+                        @if (cert.Url is null)
+                        {
+                            <div class="group flex items-start gap-3 px-3 py-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:border-cyber-cyan/40 hover:shadow-glow-cyan transition">
+                                <span class="mt-0.5 w-1.5 h-1.5 rounded-full bg-cyber-cyan shadow-glow-cyan shrink-0"></span>
+                                <span class="min-w-0">
+                                    <span class="block text-xs text-white/80 truncate group-hover:text-cyber-cyan transition">@cert.Name</span>
+                                    <span class="block text-[10px] uppercase tracking-widest text-white/40">@cert.Issuer · @cert.Year</span>
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="@cert.Url" target="_blank" rel="noopener"
+                               class="group flex items-start gap-3 px-3 py-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:border-cyber-cyan/40 hover:shadow-glow-cyan transition">
+                                <span class="mt-0.5 w-1.5 h-1.5 rounded-full bg-cyber-cyan shadow-glow-cyan shrink-0"></span>
+                                <span class="min-w-0">
+                                    <span class="block text-xs text-white/80 truncate group-hover:text-cyber-cyan transition">@cert.Name</span>
+                                    <span class="block text-[10px] uppercase tracking-widest text-white/40">@cert.Issuer · @cert.Year</span>
+                                </span>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </section>
