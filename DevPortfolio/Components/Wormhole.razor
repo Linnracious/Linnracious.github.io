@@ -55,7 +55,7 @@
                             <p class="text-[1.3em] font-bold neon-text-@accent leading-tight">@entry.Year</p>
                             <h3 class="text-[1em] font-semibold text-white/90">@entry.Title</h3>
                             <p class="text-[0.78em] text-white/45 mb-3">@entry.Org · @entry.Kind</p>
-                            <p class="text-[0.9em] text-white/75 leading-relaxed">@entry.Details</p>
+                            <p class="text-[0.9em] text-white/75 leading-relaxed">@((MarkupString)entry.Details)</p>
                             <div class="flex flex-wrap gap-1.5 mt-4">
                                 @foreach (var tag in entry.Tags)
                                 {
