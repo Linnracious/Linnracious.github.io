@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ----------------------------------------------------------------------
+   Base / global
+   ---------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cyber-bg text-white/90 font-mono antialiased;
+  }
+
+  /* Neon scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050410;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00f0ff44, #ff007f44);
+    border-radius: 9999px;
+    border: 2px solid #050410;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00f0ff88, #ff007f88);
+  }
+}
+
+/* ----------------------------------------------------------------------
+   Reusable component classes (mirrors the spec's glass utilities)
+   ---------------------------------------------------------------------- */
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.02] backdrop-blur-md border border-white/10 rounded-2xl shadow-glass-inner;
+  }
+
+  .glass-card-interactive {
+    @apply glass-card transition-all duration-300 hover:border-cyber-cyan/40 hover:shadow-glow-cyan;
+  }
+
+  .neon-text-cyan {
+    color: #00f0ff;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
+  }
+
+  .neon-text-magenta {
+    color: #ff007f;
+    text-shadow: 0 0 8px rgba(255, 0, 127, 0.6), 0 0 20px rgba(255, 0, 127, 0.3);
+  }
+
+  .neon-btn {
+    @apply relative px-5 py-2 rounded-lg border text-sm uppercase tracking-widest
+           transition-all duration-300 backdrop-blur-md;
+  }
+
+  .hud-corner {
+    @apply absolute w-4 h-4 border-cyber-cyan pointer-events-none;
+  }
+}
+
+/* ======================================================================
+   FLAT MODE — calm vertical timeline (EXIT SIMULATION)
+   ====================================================================== */
+.sim-track {
+  @apply relative;
+}
+
+/* Central neon axis: a sharp 1px glowing thread split down the viewport */
+.sim-axis {
+  @apply hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 240, 255, 0.15),
+    rgba(255, 0, 127, 0.15),
+    rgba(112, 0, 255, 0.15)
+  );
+}
+.sim-axis-fill {
+  @apply absolute inset-0 w-px origin-top;
+  background: linear-gradient(to bottom, #00f0ff, #ff007f, #7000ff);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), 0 0 30px rgba(0, 240, 255, 0.2);
+}
+.sim-card {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* ======================================================================
+   SIMULATION MODE — the Z-axis wormhole (full-viewport takeover)
+   The wheel drives translateZ on .wh-world; orbs sit at fixed depths and
+   grow/fade via CSS perspective. All motion lives in simulation.js.
+   L1 Viewport (camera) > L2 World (engine) > L3 Orbs (nodes).
+   ====================================================================== */
+
+/* L1: The Viewport — defines the vanishing point, clips the tunnel */
+.wh-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: #030308;
+  overflow: hidden;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  touch-action: none;
+  --progress: 0; /* 0→1 journey, set by JS */
+}
+
+/* Glowing tunnel core fixed at the vanishing point (screen space, not in 3D) */
+.wh-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40vmin;
+  height: 40vmin;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.5) 0%, rgba(112, 0, 255, 0.26) 40%, transparent 72%);
+  filter: blur(24px);
+  animation: corePulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+@keyframes corePulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  50%      { opacity: 0.95; transform: translate(-50%, -50%) scale(1.12); }
+}
+
+/* L2: The World — moves toward the camera as you scroll (JS sets translateZ) */
+.wh-world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  z-index: 10;
+}
+
+/* Tunnel walls: large rings parked at depths give a sense of velocity */
+.wh-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 760px;
+  height: 760px;
+  margin: -380px 0 0 -380px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateZ(var(--z, 0));
+}
+
+/* L3: The Orbs — record cards parked at their own depth.
+   The orb is a reset <button>; the flip + faces live inside it. */
+.wh-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Box scales with the viewport (clamped). Inner text uses `em` against the
+     vw-based font-size below, so the whole card scales uniformly with screen. */
+  width: clamp(300px, 44vw, 760px);
+  font-size: clamp(1rem, 1.95vw, 2.3rem);
+  transform: translate(-50%, -50%) translateZ(var(--z, 0));
+  transform-style: preserve-3d;  /* lets the inner flip render in 3D */
+  text-align: left;
+  pointer-events: none;          /* JS enables visible orbs */
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.12s linear;
+}
+.wh-orb--active,
+.wh-orb--open { pointer-events: auto !important; }
+.wh-orb--open { opacity: 1 !important; z-index: 50; }
+
+/* Flip mechanism: front shows the title, back shows the full record */
+.wh-flip {
+  position: relative;
+  width: 100%;
+  min-height: 15em;   /* em -> scales with the orb's vw-based font-size */
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.wh-flip.is-flipped { transform: rotateY(180deg); }
+
+.wh-face {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+}
+.wh-face-back { transform: rotateY(180deg); }
+
+/* Opaque glass so stacked orbs in the tunnel never bleed through each other */
+.wh-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 1.35em;   /* em -> scales with the card */
+  border-radius: 0.8em;
+  background: rgba(9, 8, 20, 0.95);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+/* The back face holds the full record — let verbose details scroll inside the
+   fixed-height card (more specific than the `overflow: hidden` above). While a
+   card is open the tunnel is paused, so the wheel scrolls this natively. */
+.wh-face-back .wh-card {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.wh-orb--active .wh-card {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), 0 0 70px rgba(0, 240, 255, 0.22),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.06);
+}
+.wh-orb[data-side='right'].wh-orb--active .wh-card {
+  box-shadow: 0 0 30px rgba(255, 0, 127, 0.4), 0 0 70px rgba(255, 0, 127, 0.22),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Radial overlay fades distant orbs into the dark */
+.wh-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 16%, rgba(3, 3, 8, 0.82) 74%, #000 100%);
+}
+
+/* Scroll hint — fades the instant you move */
+.wh-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 14%;
+  z-index: 30;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: calc(1 - var(--progress, 0) * 8);
+}
+
+/* HUD: current node read-out + journey progress bar */
+.wh-hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6%;
+  z-index: 30;
+  text-align: center;
+  pointer-events: none;
+}
+.wh-progress {
+  margin: 0.75rem auto 0;
+  width: min(60vw, 320px);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.wh-progress > i {
+  display: block;
+  height: 100%;
+  width: calc(var(--progress, 0) * 100%);
+  background: linear-gradient(to right, #00f0ff, #ff007f);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flicker,
+  .animate-float,
+  .animate-pulse-glow,
+  .wh-core { animation: none !important; }
+}
+
+/* ----------------------------------------------------------------------
+   Blazor framework UI (loading + error)
+   ---------------------------------------------------------------------- */
+.loading-progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8rem;
+  height: 8rem;
+}
+.loading-progress circle {
+  fill: none;
+  stroke: rgba(0, 240, 255, 0.1);
+  stroke-width: 0.4rem;
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+}
+.loading-progress circle:last-child {
+  stroke: #00f0ff;
+  stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7));
+  transition: stroke-dasharray 0.1s ease-in-out;
+}
+.loading-progress-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'JetBrains Mono', monospace;
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+.loading-progress-text:after {
+  content: var(--blazor-load-percentage-text, 'Booting simulation...');
+}
+
+#blazor-error-ui {
+  background: rgba(255, 0, 127, 0.1);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 0, 127, 0.4);
+  color: #ff90c0;
+  bottom: 0;
+  box-shadow: 0 -1px 20px rgba(255, 0, 127, 0.3);
+  display: none;
+  left: 0;
+  padding: 0.8rem 1.4rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+#blazor-error-ui .dismiss {
+  cursor: pointer;
+  position: absolute;
+  right: 1.2rem;
+  top: 0.6rem;
+}

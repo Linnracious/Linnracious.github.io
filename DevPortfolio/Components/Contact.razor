@@ -1,0 +1,48 @@
+@inject PortfolioData Data
+
+<section id="terminal" class="px-4 sm:px-8 py-24">
+    <div class="mx-auto max-w-3xl">
+        <header class="text-center mb-12 space-y-3">
+            <p class="text-xs uppercase tracking-[0.4em] text-cyber-cyan/70">// open a channel</p>
+            <h2 class="text-3xl sm:text-5xl font-bold neon-text-cyan">Terminal</h2>
+        </header>
+
+        <!-- Terminal window -->
+        <div class="glass-card-interactive overflow-hidden">
+            <!-- Title bar -->
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/[0.03]">
+                <span class="w-3 h-3 rounded-full bg-cyber-magenta/70"></span>
+                <span class="w-3 h-3 rounded-full bg-yellow-400/60"></span>
+                <span class="w-3 h-3 rounded-full bg-cyber-cyan/70"></span>
+                <span class="ml-3 text-xs text-white/40 tracking-widest">guest@@nexus: ~/contact</span>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 sm:p-8 text-sm space-y-2 leading-relaxed">
+                <p><span class="text-cyber-cyan">$</span> <span class="text-white/80">whoami</span></p>
+                <p class="text-white/60 pl-4">@Data.Profile.Handle — @Data.Profile.Role</p>
+
+                <p class="pt-3"><span class="text-cyber-cyan">$</span> <span class="text-white/80">cat ./channels.txt</span></p>
+                <div class="pl-4 grid sm:grid-cols-2 gap-2 pt-1">
+                    @foreach (var s in Data.Profile.Socials)
+                    {
+                        <a href="@s.Url" target="_blank" rel="noopener"
+                           class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg border border-white/10 bg-white/[0.02] hover:border-cyber-cyan/40 hover:shadow-glow-cyan transition group">
+                            <span class="text-cyber-magenta uppercase text-xs tracking-widest">@s.Label</span>
+                            <span class="text-white/60 text-xs truncate group-hover:text-cyber-cyan transition">@s.Handle</span>
+                        </a>
+                    }
+                </div>
+
+                <p class="pt-4 flex items-center">
+                    <span class="text-cyber-cyan">$</span>
+                    <span class="ml-2 w-2.5 h-5 bg-cyber-cyan/80 animate-flicker"></span>
+                </p>
+            </div>
+        </div>
+
+        <p class="text-center text-xs text-white/30 mt-12 tracking-widest">
+            © @DateTime.Now.Year @Data.Profile.Name — built with Blazor WASM · Tailwind · CSS 3D
+        </p>
+    </div>
+</section>

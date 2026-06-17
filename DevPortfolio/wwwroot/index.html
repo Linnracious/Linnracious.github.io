@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS // Dev Portfolio</title>
+    <meta name="description" content="A modern cyberpunk developer portfolio — Time Machine simulation, glassmorphism, neon." />
+
+    <!-- Local dev uses "/". The GitHub Actions deploy workflow rewrites this to
+         "/devportfolio/" for the project page. Keep that value and 404.html's
+         pathSegmentsToKeep in sync if you rename the repo. -->
+    <base href="/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="DevPortfolio.styles.css" rel="stylesheet" />
+
+    <!-- Single Page Apps for GitHub Pages: restore the deep link the 404 stashed -->
+    <script src="js/spa-github-pages.js"></script>
+
+    <script type="importmap"></script>
+</head>
+
+<body class="bg-cyber-bg">
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        A glitch in the simulation occurred.
+        <a href="." class="reload">Reboot</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <script src="js/simulation.js"></script>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+</body>
+
+</html>

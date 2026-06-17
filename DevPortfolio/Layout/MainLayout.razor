@@ -1,0 +1,60 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject SimulationState Sim
+@inject IJSRuntime JS
+
+<CyberBackdrop />
+
+<!-- Floating glassmorphic header -->
+<header class="fixed top-0 inset-x-0 z-50 px-4 sm:px-8 pt-4">
+    <nav class="mx-auto max-w-6xl glass-card px-4 sm:px-6 py-3 flex items-center justify-between">
+        <button @onclick="@(() => ScrollTo("top"))" class="flex items-center gap-2 group">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyber-cyan shadow-glow-cyan animate-pulse-glow"></span>
+            <span class="text-sm font-bold tracking-[0.3em] text-white/90 group-hover:neon-text-cyan transition">NEXUS</span>
+        </button>
+
+        @if (Sim.SimulationActive)
+        {
+            <div class="hidden md:flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-cyber-cyan/80">
+                <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-pulse-glow"></span>
+                Wormhole engaged
+            </div>
+        }
+        else
+        {
+            <div class="hidden md:flex items-center gap-1 text-xs uppercase tracking-widest">
+                <button class="px-3 py-2 rounded-lg text-white/60 hover:text-cyber-cyan hover:bg-white/5 transition"
+                        @onclick="@(() => ScrollTo("who-am-i"))">Who Am I</button>
+                <button class="px-3 py-2 rounded-lg text-white/60 hover:text-cyber-cyan hover:bg-white/5 transition"
+                        @onclick="@(() => ScrollTo("time-machine"))">Time Machine</button>
+                <button class="px-3 py-2 rounded-lg text-white/60 hover:text-cyber-cyan hover:bg-white/5 transition"
+                        @onclick="@(() => ScrollTo("terminal"))">Terminal</button>
+            </div>
+        }
+
+        <button @onclick="Sim.Toggle" class="neon-btn @ToggleClass">
+            @(Sim.SimulationActive ? "Exit Simulation" : "Enter Simulation")
+        </button>
+    </nav>
+</header>
+
+@if (Sim.SimulationActive)
+{
+    <Wormhole />
+}
+
+<main class="relative z-10">
+    @Body
+</main>
+
+@code {
+    private string ToggleClass => Sim.SimulationActive
+        ? "border-cyber-magenta/50 text-cyber-magenta hover:bg-cyber-magenta/10 hover:shadow-glow-magenta"
+        : "border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan/10 hover:shadow-glow-cyan";
+
+    protected override void OnInitialized() => Sim.Changed += StateHasChanged;
+
+    private async Task ScrollTo(string id) => await JS.InvokeVoidAsync("simulation.scrollToId", id);
+
+    public void Dispose() => Sim.Changed -= StateHasChanged;
+}

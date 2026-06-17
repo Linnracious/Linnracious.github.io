@@ -1,0 +1,129 @@
+@implements IAsyncDisposable
+@inject PortfolioData Data
+@inject IJSRuntime JS
+
+@* Full-viewport Z-axis wormhole. Rendered only while simulation mode is active.
+   The wheel drives translateZ on .wh-world (see simulation.js). Each orb shows
+   only its year + title; clicking flips it in 3D to reveal the full record and
+   pauses the tunnel so it can be read. *@
+<div class="wh-viewport" @onclick="OnViewportClick">
+    <!-- Glowing tunnel core at the vanishing point -->
+    <div class="wh-core"></div>
+
+    <!-- L2: The World (engine). Everything in here flies toward the camera. -->
+    <div class="wh-world">
+        <!-- Tunnel walls: rings parked at depths give a sense of velocity -->
+        @for (var r = 0; r < 9; r++)
+        {
+            <div class="wh-ring" style="--z:@(-(r + 1) * 1300)px"></div>
+        }
+
+        <!-- L3: The Orbs (record cards), each parked at its own depth -->
+        @foreach (var (entry, i) in Data.Timeline.Select((e, i) => (e, i)))
+        {
+            var right = i % 2 == 1;
+            var z = -800 - i * 1300;
+            var accent = right ? "magenta" : "cyan";
+            var open = _flippedKey == entry.Year;
+            @* Click is handled at the viewport level (3D hit-testing on
+               transformed orbs is unreliable), so these are plain divs. *@
+            <div @key="entry.Year"
+                 class="wh-orb @(open ? "wh-orb--open" : "")"
+                 style="--z:@(z)px"
+                 data-z="@z" data-side="@(right ? "right" : "left")"
+                 data-year="@entry.Year" data-title="@entry.Title">
+                <div class="wh-flip @(open ? "is-flipped" : "")">
+
+                    <!-- FRONT: minimal — year + title -->
+                    <div class="wh-face wh-face-front">
+                        <div class="wh-card justify-center @CardBorder(right)">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[1.9em] font-bold neon-text-@accent">@entry.Year</span>
+                                <span class="text-[0.6em] uppercase tracking-widest px-2 py-1 rounded-full border border-white/10 text-white/50">@entry.Kind</span>
+                            </div>
+                            <h3 class="text-[1.3em] font-semibold text-white/90 leading-snug">@entry.Title</h3>
+                            <p class="text-[0.9em] text-white/40 mt-1">@entry.Org</p>
+                            <span class="mt-6 text-[0.6em] uppercase tracking-[0.3em] text-cyber-@accent/80 flex items-center gap-2">
+                                <span class="text-[1em] leading-none">⟳</span> click to expand
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- BACK: the full record -->
+                    <div class="wh-face wh-face-back">
+                        <div class="wh-card @CardBorder(right) overflow-y-auto">
+                            <p class="text-[1.3em] font-bold neon-text-@accent leading-tight">@entry.Year</p>
+                            <h3 class="text-[1em] font-semibold text-white/90">@entry.Title</h3>
+                            <p class="text-[0.78em] text-white/45 mb-3">@entry.Org · @entry.Kind</p>
+                            <p class="text-[0.9em] text-white/75 leading-relaxed">@entry.Details</p>
+                            <div class="flex flex-wrap gap-1.5 mt-4">
+                                @foreach (var tag in entry.Tags)
+                                {
+                                    <span class="text-[0.6em] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/60">@tag</span>
+                                }
+                            </div>
+                            <span class="mt-4 text-[0.6em] uppercase tracking-[0.3em] text-cyber-@accent/80 flex items-center gap-2">
+                                <span class="text-[1em] leading-none">⟲</span> click to close
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Radial overlay: fades distant orbs into the dark -->
+    <div class="wh-vignette"></div>
+
+    <!-- Scroll hint: fades the moment you move -->
+    <div class="wh-hint">
+        <p class="text-xs uppercase tracking-[0.4em] text-cyber-cyan/80 animate-pulse-glow">scroll to warp · click to open a record</p>
+    </div>
+
+    <!-- HUD: current node read-out + journey progress -->
+    <div class="wh-hud">
+        <p class="text-[10px] uppercase tracking-[0.4em] text-white/40">// the time machine</p>
+        <p class="wh-hud-year text-3xl font-bold neon-text-cyan leading-tight">@Data.Timeline[0].Year</p>
+        <p class="wh-hud-title text-xs text-white/60 tracking-widest">@Data.Timeline[0].Title</p>
+        <div class="wh-progress"><i></i></div>
+    </div>
+</div>
+
+@code {
+    private string? _flippedKey;
+
+    private static string CardBorder(bool right) => right
+        ? "border border-cyber-magenta/40"
+        : "border border-cyber-cyan/40";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeVoidAsync("simulation.initWorld");
+    }
+
+    // A click anywhere in the wormhole flips the centered card open (and pauses
+    // the tunnel so it can be read), or closes the open one.
+    private async Task OnViewportClick()
+    {
+        if (_flippedKey is not null)
+        {
+            _flippedKey = null;
+            await JS.InvokeVoidAsync("simulation.setPaused", false);
+            return;
+        }
+
+        var year = await JS.InvokeAsync<string?>("simulation.getActiveYear");
+        if (!string.IsNullOrEmpty(year))
+        {
+            _flippedKey = year;
+            await JS.InvokeVoidAsync("simulation.setPaused", true);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try { await JS.InvokeVoidAsync("simulation.disposeWorld"); }
+        catch (JSDisconnectedException) { /* circuit gone — nothing to clean */ }
+    }
+}

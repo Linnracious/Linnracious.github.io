@@ -1,0 +1,14 @@
+@* The deep, alive canvas: ambient grid + giant blurred neon smog blobs.
+   Sits fixed behind all content. *@
+<div class="fixed inset-0 -z-10 overflow-hidden bg-cyber-bg bg-cyber-grid bg-[size:40px_40px] pointer-events-none">
+    <!-- Vignette to deepen the edges -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(3,7,18,0.7)_100%)]"></div>
+
+    <!-- Ambient lighting: deep neon smog -->
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyber-purple/10 rounded-full blur-[120px] animate-pulse-glow"></div>
+    <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-cyber-magenta/5 rounded-full blur-[150px] animate-pulse-glow"></div>
+    <div class="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyber-cyan/5 rounded-full blur-[140px] animate-pulse-glow"></div>
+
+    <!-- Scanline shimmer -->
+    <div class="absolute inset-0 opacity-[0.04] bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.6)_3px)]"></div>
+</div>

@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+build/
+*.user
+
+# Node / Tailwind
+node_modules/
+
+# Generated CSS (rebuilt by Tailwind on every build)
+DevPortfolio/wwwroot/css/app.css
+
+# IDE / OS
+.vs/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json

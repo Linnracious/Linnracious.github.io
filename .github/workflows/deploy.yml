@@ -1,0 +1,80 @@
+name: Deploy Blazor WASM to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow GITHUB_TOKEN to deploy to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; don't cancel an in-progress run
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DevPortfolio
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: DevPortfolio/package-lock.json
+
+      - name: Install npm deps
+        run: npm ci
+
+      # Tailwind is also wired into the .csproj build, but running it here keeps
+      # CI explicit and lets `npm ci` cache do its job.
+      - name: Build Tailwind CSS
+        run: npm run build:css
+
+      - name: Publish
+        run: dotnet publish -c Release -o ../build
+
+      # Rewrite the base href for the project page. index.html ships with "/" so
+      # local `dotnet run` works; production lives at /<repo>/. If you rename the
+      # repo, change BASE_PATH here and pathSegmentsToKeep in 404.html.
+      - name: Set base href for GitHub Pages
+        run: |
+          BASE_PATH="/${GITHUB_REPOSITORY#*/}/"
+          echo "Rewriting <base href> to ${BASE_PATH}"
+          sed -i "s|<base href=\"/\" />|<base href=\"${BASE_PATH}\" />|" ../build/wwwroot/index.html
+          grep -o '<base href="[^"]*"' ../build/wwwroot/index.html
+
+      # SPA fallback: GitHub Pages needs a 404.html (already in wwwroot) and a
+      # .nojekyll so it doesn't strip Blazor's _framework folder.
+      - name: Ensure .nojekyll
+        run: touch ../build/wwwroot/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/wwwroot
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

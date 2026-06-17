@@ -1,0 +1,69 @@
+@inject PortfolioData Data
+@inject IJSRuntime JS
+
+<section id="who-am-i" class="min-h-screen flex items-center px-4 sm:px-8 pt-32 pb-20">
+    <div class="mx-auto max-w-6xl w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Cyber portrait : glass frame + HUD corner decals + magenta backing glow -->
+        <div class="order-2 lg:order-1 flex justify-center">
+            <div class="relative">
+                <!-- Magenta backing glow -->
+                <div class="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl bg-cyber-magenta/20 blur-2xl shadow-glow-magenta"></div>
+
+                <div @ref="_frame" class="relative aspect-square w-64 sm:w-80 glass-card overflow-hidden transition-transform duration-200 will-change-transform">
+                    <img src="@Data.Profile.PhotoUrl" alt="@Data.Profile.Name"
+                         class="w-full h-full object-cover opacity-90 mix-blend-luminosity" />
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyber-magenta/20 via-transparent to-cyber-cyan/20"></div>
+
+                    <!-- HUD corner tick marks -->
+                    <span class="hud-corner top-2 left-2 border-t-2 border-l-2"></span>
+                    <span class="hud-corner top-2 right-2 border-t-2 border-r-2"></span>
+                    <span class="hud-corner bottom-2 left-2 border-b-2 border-l-2"></span>
+                    <span class="hud-corner bottom-2 right-2 border-b-2 border-r-2"></span>
+
+                    <!-- Status readout -->
+                    <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] uppercase tracking-widest text-cyber-cyan/80">
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyber-cyan animate-pulse-glow"></span> Online
+                        </span>
+                        <span>@Data.Profile.Location</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identity readout -->
+        <div class="order-1 lg:order-2 space-y-6">
+            <p class="text-xs uppercase tracking-[0.4em] text-cyber-cyan/70">// initializing identity</p>
+            <h1 class="text-4xl sm:text-6xl font-bold leading-tight">
+                <span class="text-white/50 text-2xl sm:text-3xl block mb-1">Hello, I am</span>
+                <span class="neon-text-cyan">@Data.Profile.Name</span>
+            </h1>
+            <p class="text-lg text-cyber-magenta font-medium">@Data.Profile.Role</p>
+
+            <div class="space-y-3 text-white/70 leading-relaxed max-w-prose">
+                @foreach (var line in Data.Profile.Bio)
+                {
+                    <p>@line</p>
+                }
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+                @foreach (var tech in Data.Profile.Stack)
+                {
+                    <span class="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-cyber-cyan/40 hover:text-cyber-cyan transition">@tech</span>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private ElementReference _frame;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeVoidAsync("simulation.initPortraitTilt", _frame);
+    }
+}
