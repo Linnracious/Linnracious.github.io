@@ -74,7 +74,7 @@ public sealed class Profile
         new() { Name = "Foundations of Cybersecurity", Issuer = "Google", Year = "2026", Url = "https://www.coursera.org/account/accomplishments/verify/ULLZKLZP1NSZ" },
         new() { Name = "Foundations of Project Management", Issuer = "Google", Year = "2025", Url = "https://www.coursera.org/account/accomplishments/verify/YOYW7642UTSI" },
         new() { Name = "Application Development using Microservices and Serverless", Issuer = "IBM", Year = "2025", Url = "https://www.coursera.org/account/accomplishments/verify/3B4G28IPZYE9" },
-        new() { Name = "Scrum Master (PSM I)",        Issuer = "Scrum.org", Year = "2018", Url = "https://www.scrum.org/certificates/319609" }
+        new() { Name = "Scrum Master (PSM I)",        Issuer = "Scrum.org", Year = "2018", Url = "https://www.scrum.org/user/359770" }
     ];
 
     public SocialLink[] Socials { get; init; } =
