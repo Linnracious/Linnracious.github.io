@@ -38,7 +38,7 @@ public sealed class PortfolioData
             Title = "Web Module Developer",
             Org = "Encyclopedia of Chemical Engineering Equipment@University of Michigan",
             Summary = "Let's work with some web pages!",
-            Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. <a href='https://encyclopedia.che.engin.umich.edu/' target='_blank'>Open link</a>",
+            Details = "Collaborated with a team of 5 to develop online encyclopedia of ChE equipment. Researched over hundreds of chemical engineering companies and equipment. Delivered an informative and comprehensive online encyclopedia for the public. </br> <a href='https://encyclopedia.che.engin.umich.edu/' target='_blank'>Open link</a>",
             Tags = ["HTML", "JavaScript"],
             Kind = NodeKind.Work
         },  
@@ -47,7 +47,7 @@ public sealed class PortfolioData
             Year = "2014.5",
             Title = "B.S.E of Chemical Engineer, Minor in Computer Science",
             Org = "University of Michigan-Ann Arbor",
-            Summary = "Where it first compiled",
+            Summary = "Finally done downloading...",
             Details = "Graduated Cum laude, with a focus on Research & Development for Product Design and experienced in software development and algorithms.",
             Tags = ["Chemical Engineering", "Computer Science"],
             Kind = NodeKind.Education
@@ -57,50 +57,40 @@ public sealed class PortfolioData
             Year = "2014.6",
             Title = "Junior Software Engineer / Information Technology Analyst",
             Org = "The Dow Chemical Company",
-            Summary = "Shipped to production on week two. Survived.",
-            Details = "Owned a customer-facing dashboard rebuild. Cut page load time by 60% and learned why staging environments exist.",
-            Tags = ["React", "Node", "PostgreSQL"],
+            Summary = "From code magus to programming wizard",
+            Details = "Began with software projects around a Laboratory Information Management System (LIMS) to developing and owning APIs, clients, and pipelines to extend its capability for 1000+ researchers. Over time, developed and supported over 20+ critical R&D applications.",
+            Tags = ["JavaScript", "HTML", "Knockout.js", "Durandal.js", "D3.js", "Bootstrap", ".NET", "C#"],
             Kind = NodeKind.Work
         },
         new()
         {
-            Year = "2021",
-            Title = "OpenSource: NeonGrid",
-            Org = "Personal Project",
-            Summary = "A GPU-accelerated data-viz toolkit. 2k+ stars.",
-            Details = "Designed an extensible rendering pipeline and a plugin API. Maintaining it taught me more about empathy than any management course.",
-            Tags = ["WebGL", "TypeScript", "OSS"],
+            Year = "2019.7",
+            Title = "Senior Software Engineer / Senior Information Technology Analyst,
+            Org = "The Dow Chemical Company",
+            Summary = "Lead, teach and optimize!",
+            Details = "Championing the adoption of agile and scrum methodologies on the team, scaled up the LIMS ecosystem with 4 new additional business functions, and developed into a more business analyst role, working with stakeholders to deliver strategy and 10M+ value for their functions.",
+            Tags = ["Agile", "SCRUM", "Aurelia", "TFS", "Azure DevOps", "Business Analyst", "CI/CD"],
+            Kind = NodeKind.Milestone
+        },
+        new()
+        {
+            Year = "2024.7",
+            Title = "Lead Software Engineer / Advisory Developer / Associate Solution Manager",
+            Org = "The Dow Chemical Company",
+            Summary = "Patience you must have, my young Padawans",
+            Details = "Lead a team of 10+ jumior and senior developers on a journey to eradicate 10+ years of technical debt and security vulnerability, updating our frameworks, infrastructure and pipelines to adhere to modern principals and standards and eliminating 20+ EOL servers and patching and uplifting 50+ applications and mastering ownership of the life cycle management of the entire team's portfolio.",
+            Tags = ["Life Cycle Management", "Tech Debt", "Security", "Microsoft Defender", "CodeQL/Advanced Security"],
+            Kind = NodeKind.Milestone
+        },
+        new()
+        {
+            Year = "2026+",
+            Title = "Lead Software Engineer / Advisory Developer / Associate Solution Manager",
+            Org = "The Dow Chemical Company",
+            Summary = "Who am AI?",
+            Details = "Designed and drafted the requirements and specificiation documents for a multi-facted project management software integrating with many aspects of Microsoft's platforms such as Outlook, Azure DevOps, Planner, and OneNote in order to centralize the work a project manager need to track and plan projects to one location. This was AI-driven development mainly using Claude-Opus 4.* version while I managed the tasks and some manual bug fixes.",
+            Tags = ["AI", "Claude", "Opus48", "Blazor", "CoPilot", "Project Management"],
             Kind = NodeKind.Project
-        },
-        new()
-        {
-            Year = "2022",
-            Title = "Software Engineer II",
-            Org = "Helix Dynamics",
-            Summary = "Led the migration to a modular monolith.",
-            Details = "Reduced deployment incidents by 75% with feature flags and progressive rollouts. Mentored two juniors into mid-level roles.",
-            Tags = [".NET", "Azure", "CI/CD"],
-            Kind = NodeKind.Work
-        },
-        new()
-        {
-            Year = "2023",
-            Title = "Founding Engineer",
-            Org = "Stealth Startup",
-            Summary = "Zero to one. Built the platform from an empty repo.",
-            Details = "Architected an event-driven backend serving 50k MAU. Set the engineering culture, the test strategy, and the on-call rotation.",
-            Tags = ["Architecture", "gRPC", "Kafka"],
-            Kind = NodeKind.Milestone
-        },
-        new()
-        {
-            Year = "2025",
-            Title = "Independent Consultant",
-            Org = "Self-Employed",
-            Summary = "Helping teams ship faster without breaking things.",
-            Details = "Currently advising on performance, DX, and front-end architecture. Building this very portfolio in Blazor WASM + GSAP.",
-            Tags = ["Consulting", "Blazor", "DX"],
-            Kind = NodeKind.Milestone
         }
     ];
 }
