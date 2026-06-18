@@ -34,9 +34,10 @@ public sealed class Profile
 
     public string[] Bio { get; init; } =
     [
-        "I build things for the web and beyond — turning caffeine and curiosity into resilient systems.",
-        "My stack runs from .NET and C# on the metal up through TypeScript and the modern front-end. I care about clean architecture, fast feedback loops, and interfaces that feel alive.",
-        "When I'm offline you'll find me chasing synthwave playlists, mechanical keyboards, and the next side project."
+        "I’m a software developer in R&D who focuses on turning complex, ambiguous challenges into practical, reliable solutions. My work sits at the intersection of research, data, and systems—where success isn’t just about building technology, but ensuring it works seamlessly for the people who depend on it.",
+        "I bring a pragmatic, solutions‑oriented mindset to my work. I value clarity over over-promising, and I approach problems by aligning the right people, setting realistic expectations, and steadily driving progress forward. Whether it’s coordinating system changes, evolving applications, or supporting critical infrastructure, I focus on outcomes that are both technically sound and operationally sustainable.",
+        "What sets me apart is that my leadership isn’t purely technical—it’s deeply human. I make a conscious effort to support the people around me, ensuring teammates feel recognized, appreciated, and valued, especially during times of change or uncertainty. I believe strong systems are built by engaged teams, and I strive to create an environment where collaboration feels natural and contributions matter.",
+        "At my core, I enjoy making things better—simplifying complexity, improving systems, and helping teams move forward with confidence."
     ];
 
     public string[] Stack { get; init; } =
